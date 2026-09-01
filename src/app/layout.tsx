@@ -11,7 +11,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   // ✅ تغییر موقت عنوان با اعداد فارسی برای تایید اینماد
-  title: "۵۹۱۱۰۶۳", 
+  title: "۵۹۱۱۰۸۶۳", 
   description: "خرید آنلاین اصل‌ترین محصولات آرایشی و بهداشتی، سرم، کرم، ضد آفتاب و شوینده برند تراست (Trust). دریافت مشاوره تخصصی رایگان برای روتین پوست و مو با مدیریت آرمان آرام در فروشگاه اینترنتی چهره آپ.",
   keywords: [
     "تراست", "Trust", "محصولات تراست", "چهره آپ", "ChehrehUp",
