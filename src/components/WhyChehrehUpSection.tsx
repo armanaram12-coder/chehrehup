@@ -1,26 +1,36 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
+
+interface Banner {
+  id: number;
+  title: string;
+  description: string;
+  image_url: string;
+}
+
 export default function WhyChehrehUpSection() {
-  const features = [
-    {
-      icon: '🛡️',
-      title: 'ضمانت ۱۰۰٪ اصالت محصولات تراست',
-      desc: 'تمامی کرم‌ها، سرم‌ها و لوازم آرایشی بهداشتی با ضمانت‌نامه معتبر و کد اصالت عرضه می‌شوند.'
-    },
-    {
-      icon: '‍⚕️',
-      title: 'مشاوره رایگان روتین پوست و مو',
-      desc: 'تیم ما (با مدیریت آرام) قبل از خرید، بهترین ترکیب محصولات Trust را متناسب با نوع پوست شما پیشنهاد می‌دهد.'
-    },
-    {
-      icon: '🚚',
-      title: 'ارسال سریع و ایمن به سراسر ایران',
-      desc: 'سفارشات لوازم آرایشی شما در بسته‌بندی مقاوم و در کوتاه‌ترین زمان ممکن ارسال می‌شود.'
-    },
-    {
-      icon: '💎',
-      title: 'قیمت منصفانه و رقابتی',
-      desc: 'حذف واسطه‌ها به ما این امکان را می‌دهد تا بهترین قیمت را برای محصولات اورجینال آرایشی ارائه دهیم.'
-    }
-  ];
+  const [banners, setBanners] = useState<Banner[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      const { data, error } = await supabase
+        .from('feature_banners')
+        .select('*')
+        .order('order_index', { ascending: true });
+
+      if (data && !error) {
+        setBanners(data);
+      }
+      setLoading(false);
+    };
+
+    fetchBanners();
+  }, []);
+
+  if (loading) return null; // یا یه اسکلتون لودینگ ساده
 
   return (
     <section className="py-16 bg-white">
@@ -32,15 +42,28 @@ export default function WhyChehrehUpSection() {
           تفاوت ما در تعهد به اصالت کالا و ارائه مشاوره تخصصی رایگان برای تدوین روتین پوست و مو متناسب با نیاز شماست.
         </p>
         
+        {/* ✅ گرید جدید برای نمایش عکس‌ها */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((item, index) => (
+          {banners.map((banner) => (
             <div 
-              key={index} 
-              className="bg-purple-50/50 rounded-2xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-purple-100"
+              key={banner.id} 
+              className="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 bg-white"
             >
-              <div className="text-4xl mb-4">{item.icon}</div>
-              <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
+              {/* عکس بنر */}
+              <div className="aspect-[4/5] w-full overflow-hidden">
+                <img 
+                  src={banner.image_url} 
+                  alt={banner.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              
+              {/* لایه متن روی عکس (اختیاری - اگر عکس‌ها خودشون متن دارن شاید لازم نباشه) */}
+              {/* اگر عکس‌ها کامل هستن و متن دارن، می‌تونی این بخش پایین رو حذف کنی یا فقط برای SEO نگه داری */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                 <h3 className="font-bold text-lg mb-1">{banner.title}</h3>
+                 <p className="text-xs leading-relaxed line-clamp-2">{banner.description}</p>
+              </div>
             </div>
           ))}
         </div>
