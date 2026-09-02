@@ -11,7 +11,7 @@ export default function Footer() {
             <h3 className="text-2xl font-bold mb-4 text-purple-300 flex items-center gap-2"><span>✨</span> فروشگاه چهره آپ</h3>
             <p className="text-gray-300 leading-relaxed mb-4 text-justify">
               {/* ✅ تغییر نام فروشگاه در متن توضیحات */}
-              فروشگاه اینترنتی چهره آپ، با مدیریت <strong className="text-white">آرمان آرام</strong>، مرجع تخصصی و مطمئن شما برای خرید آنلاین محصولات آرایشی، بهداشتی و مراقبت از پوست و مو است. ما با افتخار، <strong className="text-purple-300">نماینده رسمی فروش برند معتبر تراست (Trust)</strong> هستیم و تلاش می‌کنیم اصیل‌ترین سرم، کرم، ضد آفتاب و شوینده‌های این برند را با ضمانت کیفیت به دست شما برسانیم. هدف ما در چهره آپ، ارائه یک روتین پوست و موی علمی و مؤثر برای درخشش طبیعی زیبایی شماست.
+              فروشگاه اینترنتی چهره آپ، با مدیریت <strong className="text-white"> آرام </strong>، مرجع تخصصی و مطمئن شما برای خرید آنلاین محصولات آرایشی، بهداشتی و مراقبت از پوست و مو است. ما با افتخار، <strong className="text-purple-300">نماینده رسمی فروش برند معتبر تراست (Trust)</strong> هستیم و تلاش می‌کنیم اصیل‌ترین سرم، کرم، ضد آفتاب و شوینده‌های این برند را با ضمانت کیفیت به دست شما برسانیم. هدف ما در چهره آپ، ارائه یک روتین پوست و موی علمی و مؤثر برای درخشش طبیعی زیبایی شماست.
             </p>
             <div className="flex gap-4 mt-6">
               <a href="https://wa.me/989352225693" className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-500 transition-colors" title="مشاوره خرید در واتس‌اپ"><span className="text-xl">💬</span></a>
@@ -30,7 +30,7 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="text-lg font-bold mb-4 text-purple-300">ارتباط با آرمان آرام</h4>
+            <h4 className="text-lg font-bold mb-4 text-purple-300">ارتباط با مدیریت</h4>
             <ul className="space-y-4 text-gray-300 text-sm">
               <li className="flex items-start gap-3"><span className="text-purple-400 mt-1"></span><div><p className="font-semibold text-white">شماره تماس و واتس‌اپ:</p><a href="tel:09352225693" className="hover:text-purple-300 transition-colors font-mono text-left block dir-ltr">09352225693</a></div></li>
               <li className="flex items-start gap-3"><span className="text-purple-400 mt-1">️</span><div><p className="font-semibold text-white">پشتیبانی ایمیلی:</p>
@@ -62,8 +62,8 @@ export default function Footer() {
 
         <div className="border-t border-purple-800/50 pt-6 text-center text-sm text-gray-400">
           {/* ✅ تغییر نام در کپی‌رایت */}
-          <p>© ۱۴۰۵ فروشگاه اینترنتی چهره آپ (با مدیریت آرمان آرام) - تمامی حقوق مادی و معنوی محفوظ است.</p>
-          <p className="mt-2 text-xs text-purple-400/70">طراحی و توسعه آرمان آرام | نماینده فروش محصولات تراست</p>
+          <p>© ۱۴۰۵ فروشگاه اینترنتی چهره آپ (با مدیریت جواد آرام) - تمامی حقوق مادی و معنوی محفوظ است.</p>
+          <p className="mt-2 text-xs text-purple-400/70">طراحی و توسعه جواد آرام | نماینده فروش محصولات تراست</p>
         </div>
       </div>
     </footer>
