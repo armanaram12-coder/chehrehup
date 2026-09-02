@@ -39,27 +39,28 @@ export default function WhyChehrehUpSection() {
           چرا فروشگاه چهره آپ بهترین مرجع خرید محصولات آرایشی بهداشتی و تراست است؟
         </h2>
         <p className="text-gray-600 max-w-3xl mx-auto text-center mb-12">
-          تفاوت ما در تعهد به اصالت کالا و ارائه مشاوره رایگان برای تدوین روتین پوست و مو متناسب با نیاز شماست.
+          تفاوت ما در تعهد به اصالت کالا و ارائه مشاوره تخصصی رایگان برای تدوین روتین پوست و مو متناسب با نیاز شماست.
         </p>
         
-        {/* ✅ گرید اصلاح شده با سایز یکسان */}
+        {/* ✅ گرید اصلاح شده */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {banners.map((banner) => (
             <div 
               key={banner.id} 
               className="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 bg-white"
             >
-              {/* کانتینر عکس با نسبت ابعاد ثابت */}
-              <div className="aspect-[3/4] w-full overflow-hidden bg-gray-50">
+              {/* ✅ تغییر نسبت ابعاد به 4/3 (افقی) برای نمایش کامل عکس‌ها */}
+              <div className="aspect-[4/3] w-full overflow-hidden bg-gray-50">
                 <img 
                   src={banner.image_url} 
-                  alt={banner.title} // این alt برای سئو کافیه
+                  // ✅ سئو: استفاده از عنوان دقیق و توصیفی برای alt
+                  alt={`بنر ${banner.title} - فروشگاه چهره آپ`} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
+                  width="400"
+                  height="300"
                 />
               </div>
-              
-              {/*  لایه متنی حذف شد چون عکس‌ها خودشون متن دارن و شلوغ میشه */}
             </div>
           ))}
         </div>
