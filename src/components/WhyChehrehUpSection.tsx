@@ -30,7 +30,7 @@ export default function WhyChehrehUpSection() {
     fetchBanners();
   }, []);
 
-  if (loading) return null; // یا یه اسکلتون لودینگ ساده
+  if (loading) return null;
 
   return (
     <section className="py-16 bg-white">
@@ -39,31 +39,27 @@ export default function WhyChehrehUpSection() {
           چرا فروشگاه چهره آپ بهترین مرجع خرید محصولات آرایشی بهداشتی و تراست است؟
         </h2>
         <p className="text-gray-600 max-w-3xl mx-auto text-center mb-12">
-          تفاوت ما در تعهد به اصالت کالا و ارائه مشاوره رایگان برای تدوین روتین پوست و مو متناسب با نیاز شماست.
+          تفاوت ما در تعهد به اصالت کالا و ارائه مشاوره تخصصی رایگان برای تدوین روتین پوست و مو متناسب با نیاز شماست.
         </p>
         
-        {/* ✅ گرید جدید برای نمایش عکس‌ها */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* ✅ گرید اصلاح شده با سایز یکسان */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {banners.map((banner) => (
             <div 
               key={banner.id} 
               className="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 bg-white"
             >
-              {/* عکس بنر */}
-              <div className="aspect-[4/5] w-full overflow-hidden">
+              {/* کانتینر عکس با نسبت ابعاد ثابت */}
+              <div className="aspect-[3/4] w-full overflow-hidden bg-gray-50">
                 <img 
                   src={banner.image_url} 
-                  alt={banner.title}
+                  alt={banner.title} // این alt برای سئو کافیه
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
               
-              {/* لایه متن روی عکس (اختیاری - اگر عکس‌ها خودشون متن دارن شاید لازم نباشه) */}
-              {/* اگر عکس‌ها کامل هستن و متن دارن، می‌تونی این بخش پایین رو حذف کنی یا فقط برای SEO نگه داری */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                 <h3 className="font-bold text-lg mb-1">{banner.title}</h3>
-                 <p className="text-xs leading-relaxed line-clamp-2">{banner.description}</p>
-              </div>
+              {/*  لایه متنی حذف شد چون عکس‌ها خودشون متن دارن و شلوغ میشه */}
             </div>
           ))}
         </div>
