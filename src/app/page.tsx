@@ -10,6 +10,7 @@ import FloatingContact from '@/components/FloatingContact';
 import AIConsultant from '@/components/AIConsultant';
 import MagazineSection from '@/components/MagazineSection';
 import CategoriesSection from '@/components/CategoriesSection';
+import WhyChehrehUpSection from '@/components/WhyChehrehUpSection'; // ✅ ایمپورت کامپوننت جدید
 import { supabase } from '@/lib/supabase';
 import { addToCart, getCartCount } from '@/lib/cart';
 import { toggleFavorite, getFavorites } from '@/lib/favorites';
@@ -95,7 +96,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'all' | 'new' | 'bestseller'>('bestseller');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true); // این متغیر هنوز لازمه برای اسکرول خودکار
+  const [loading, setLoading] = useState(true);
   const [cartCount, setCartCount] = useState(0);
   const [showToast, setShowToast] = useState(false);
   const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
@@ -131,7 +132,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // شرط loading اینجا مهمه تا وقتی دیتا نیومده اسکرول نکنه
     if (loading || typeof window === 'undefined') return;
     
     const params = new URLSearchParams(window.location.search);
@@ -203,9 +203,6 @@ export default function Home() {
     return true;
   });
 
-  // ✅ حذف کامل بخش لودینگ بنفش رنگ
-  // if (loading) { ... } <-- این قسمت کلاً حذف شد
-
   return (
     <>
       {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
@@ -221,7 +218,7 @@ export default function Home() {
           <HeroSlider />
           <FlashSale />
           
-          {/* بقیه کدها دقیقاً مثل قبل باقی موندن */}
+          {/* ✅ آمار و ارقام */}
           <section className="py-12 bg-white">
             <div className="container mx-auto px-4">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -230,7 +227,7 @@ export default function Home() {
                   <div className="text-gray-600 text-sm md:text-base">مشتری راضی</div>
                 </div>
                 <div>
-                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">+۱۹۰</div>
+                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">+۱۰</div>
                   <div className="text-gray-600 text-sm md:text-base">محصول آرایشی بهداشتی</div>
                 </div>
                 <div>
@@ -245,6 +242,7 @@ export default function Home() {
             </div>
           </section>
           
+          {/* ✅ محصول ویژه هفته */}
           <section className="relative py-16 overflow-hidden" dir="rtl">
             <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-rose-50 to-purple-100" />
             <div className="absolute top-10 right-10 w-72 h-72 bg-yellow-300/30 rounded-full blur-3xl animate-pulse" />
@@ -276,7 +274,7 @@ export default function Home() {
                     <div className="relative bg-gradient-to-br from-purple-100 via-pink-50 to-amber-50 p-8 flex items-center justify-center min-h-[350px]">
                       <div className="absolute top-6 right-6 z-20">
                         <div className="bg-gradient-to-br from-red-500 to-pink-600 text-white w-20 h-20 rounded-full flex flex-col items-center justify-center shadow-xl">
-                          <div className="text-2xl font-extrabold leading-none">٪۲۰</div>
+                          <div className="text-2xl font-extrabold leading-none">٪۰</div>
                           <div className="text-xs mt-1">تخفیف</div>
                         </div>
                       </div>
@@ -335,6 +333,7 @@ export default function Home() {
             </div>
           </section>
 
+          {/* ✅ دسته‌بندی‌ها */}
           <CategoriesSection 
             selectedCategory={selectedCategory}
             onCategorySelect={(cat) => {
@@ -343,6 +342,7 @@ export default function Home() {
             }}
           />
 
+          {/* ✅ لیست محصولات */}
           <section id="products-section" className="py-8">
             <div className="container mx-auto px-4">
               <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-6 text-center">
@@ -386,29 +386,13 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="py-16 bg-white">
-            <div className="container mx-auto px-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 text-center">چرا فروشگاه چهره آپ بهترین مرجع خرید محصولات آرایشی بهداشتی و تراست است؟</h2>
-              <p className="text-gray-600 max-w-3xl mx-auto text-center mb-12">تفاوت ما در تعهد به اصالت کالا و ارائه مشاوره تخصصی رایگان برای تدوین روتین پوست و مو متناسب با نیاز شماست.</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[
-                  { icon: '🛡️', title: 'ضمانت ۱۰۰٪ اصالت محصولات تراست', desc: 'تمامی کرم‌ها، سرم‌ها و لوازم آرایشی بهداشتی با ضمانت‌نامه معتبر و کد اصالت عرضه می‌شوند.' },
-                  { icon: '👨‍️', title: 'مشاوره رایگان روتین پوست و مو', desc: 'تیم ما (با مدیریت آرمان آرام) قبل از خرید، بهترین ترکیب محصولات Trust را متناسب با نوع پوست شما پیشنهاد می‌دهد.' },
-                  { icon: '🚚', title: 'ارسال سریع و ایمن به سراسر ایران', desc: 'سفارشات لوازم آرایشی شما در بسته‌بندی مقاوم و در کوتاه‌ترین زمان ممکن ارسال می‌شود.' },
-                  { icon: '💎', title: 'قیمت منصفانه و رقابتی', desc: 'حذف واسطه‌ها به ما این امکان را می‌دهد تا بهترین قیمت را برای محصولات اورجینال آرایشی ارائه دهیم.' }
-                ].map((item, index) => (
-                  <div key={index} className="bg-purple-50/50 rounded-2xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-purple-100">
-                    <div className="text-4xl mb-4">{item.icon}</div>
-                    <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+          {/* ✅ کامپوننت جدا شده "چرا چهره آپ" */}
+          <WhyChehrehUpSection />
 
+          {/* ✅ مجله چهره آپ */}
           <MagazineSection />
 
+          {/* ✅ برندهای همکار */}
           <section className="py-16 bg-white">
             <div className="container mx-auto px-4">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 text-center">برندهای معتبر همکار با فروشگاه چهره آپ</h2>
@@ -423,6 +407,7 @@ export default function Home() {
             </div>
           </section>
 
+          {/* ✅ نظرات مشتریان */}
           <section className="py-16 bg-gradient-to-br from-purple-900 to-indigo-900 text-white">
             <div className="container mx-auto px-4">
               <h2 className="text-2xl md:text-3xl font-bold mb-3 text-center">نظرات مشتریان فروشگاه چهره آپ</h2>
@@ -452,6 +437,7 @@ export default function Home() {
             </div>
           </section>
 
+          {/* ✅ بنر اپلیکیشن */}
           <section className="py-8 bg-gradient-to-br from-green-50 to-teal-50">
             <div className="container mx-auto px-4">
               <div className="max-w-5xl mx-auto">
@@ -464,6 +450,7 @@ export default function Home() {
             </div>
           </section>
 
+          {/* ✅ خبرنامه */}
           <section className="py-16 bg-gradient-to-r from-purple-600 to-pink-500 text-white">
             <div className="container mx-auto px-4">
               <div className="max-w-3xl mx-auto text-center">
@@ -494,6 +481,7 @@ export default function Home() {
             </div>
           </section>
 
+          {/* ✅ معرفی تخصصی تراست */}
           <section className="py-16 bg-gradient-to-br from-purple-900 to-indigo-900 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
