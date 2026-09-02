@@ -42,23 +42,23 @@ export default function WhyChehrehUpSection() {
           تفاوت ما در تعهد به اصالت کالا و ارائه مشاوره تخصصی رایگان برای تدوین روتین پوست و مو متناسب با نیاز شماست.
         </p>
         
-        {/* ✅ گرید اصلاح شده */}
+        {/* ✅ گرید با کارت‌های مربعی */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {banners.map((banner) => (
             <div 
               key={banner.id} 
               className="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 bg-white"
             >
-              {/* ✅ تغییر نسبت ابعاد به 4/3 (افقی) برای نمایش کامل عکس‌ها */}
-              <div className="aspect-[4/3] w-full overflow-hidden bg-gray-50">
+              {/* ✅ تغییر به aspect-square برای نمایش دقیقاً مربعی */}
+              <div className="aspect-square w-full overflow-hidden bg-gray-50">
                 <img 
                   src={banner.image_url} 
-                  // ✅ سئو: استفاده از عنوان دقیق و توصیفی برای alt
-                  alt={`بنر ${banner.title} - فروشگاه چهره آپ`} 
+                  // ✅ سئو: توضیح دقیق و شامل نام برند
+                  alt={`بنر ویژگی ${banner.title} - فروشگاه اینترنتی چهره آپ`} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
-                  width="400"
-                  height="300"
+                  width="500"
+                  height="500"
                 />
               </div>
             </div>
