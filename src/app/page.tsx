@@ -12,6 +12,7 @@ import MagazineSection from '@/components/MagazineSection';
 import CategoriesSection from '@/components/CategoriesSection';
 import WhyChehrehUpSection from '@/components/WhyChehrehUpSection';
 import PartnerBrandsSection from '@/components/PartnerBrandsSection';
+import TrustIntroSection from '@/components/TrustIntroSection'; // ✅ ایمپورت کامپوننت جدید
 import { supabase } from '@/lib/supabase';
 import { addToCart, getCartCount } from '@/lib/cart';
 import { toggleFavorite, getFavorites } from '@/lib/favorites';
@@ -291,7 +292,7 @@ export default function Home() {
                             <span className="text-gray-700 text-lg font-bold">تومان</span>
                           </div>
                           <div className="mt-2 inline-block bg-green-50 border border-green-200 px-3 py-1 rounded-lg">
-                            <span className="text-green-700 text-sm font-bold">۳۷۰,۰۰۰ تومان سود شما</span>
+                            <span className="text-green-700 text-sm font-bold">۳۷۰,۰۰ تومان سود شما</span>
                           </div>
                         </div>
 
@@ -374,6 +375,9 @@ export default function Home() {
           {/* ✅ برندهای همکار */}
           <PartnerBrandsSection />
 
+          {/* ✅ معرفی تخصصی تراست (جایگزین شده با کامپوننت داینامیک) */}
+          <TrustIntroSection />
+
           {/* ✅ نظرات مشتریان */}
           <section className="py-16 bg-gradient-to-br from-purple-900 to-indigo-900 text-white">
             <div className="container mx-auto px-4">
@@ -444,43 +448,6 @@ export default function Home() {
                   <p className="text-green-300 mt-4 text-sm">✅ با موفقیت ثبت شد! به زودی ایمیل‌های ما را دریافت خواهید کرد.</p>
                 )}
                 <p className="text-xs text-purple-200 mt-4">با عضویت، موافقت خود را با دریافت ایمیل‌های تبلیغاتی اعلام می‌کنید.</p>
-              </div>
-            </div>
-          </section>
-
-          {/* ✅ معرفی تخصصی تراست */}
-          <section className="py-16 bg-gradient-to-br from-purple-900 to-indigo-900 text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-            <div className="container mx-auto px-4 relative z-10">
-              <div className="flex flex-col lg:flex-row items-center gap-12">
-                <div className="lg:w-1/2">
-                  <span className="inline-block bg-purple-700/50 text-purple-200 px-4 py-1 rounded-full text-sm font-semibold mb-4 border border-purple-500/30">نمایندگی رسمی فروش برند Trust</span>
-                  <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">راز درخشش پوست شما، در روتین مراقبتی تخصصی تراست است</h2>
-                  <p className="text-gray-300 leading-relaxed mb-6 text-justify">
-                    محصولات آرایشی و بهداشتی تراست (Trust) با فرمولاسیون پیشرفته، نیازهای مختلف پوستی از جمله آبرسانی، ضدچروک، روشن‌کنندگی و محافظت در برابر آفتاب را پوشش می‌دهند. ما در فروشگاه اینترنتی چهره آپ، نه تنها فروشنده، بلکه مشاور شما برای انتخاب صحیح سرم، کرم و شوینده تراست هستیم تا بیشترین بازدهی را برای روتین پوست و موی خود تجربه کنید.
-                  </p>
-                  <div className="flex flex-wrap gap-4">
-                    <a href="#products-section" className="bg-white text-purple-900 px-8 py-3 rounded-xl font-bold hover:bg-purple-50 transition-colors shadow-lg">مشاهده و خرید محصولات تراست</a>
-                    <a href="https://wa.me/989352225693" target="_blank" rel="noopener noreferrer" className="bg-green-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-500 transition-colors shadow-lg flex items-center gap-2">
-                      <span>💬</span> درخواست مشاوره رایگان پوست و مو
-                    </a>
-                  </div>
-                </div>
-                <div className="lg:w-1/2 grid grid-cols-2 gap-4">
-                  {[
-                    { icon: '💧', title: 'سرم‌های تخصصی تراست', desc: 'آبرسانی عمیق و جوانسازی با تکنولوژی روز' },
-                    { icon: '☀️', title: 'کرم ضد آفتاب Trust', desc: 'محافظت کامل با بافت سبک و فاقد چربی' },
-                    { icon: '🧴', title: 'شوینده‌های ملایم', desc: 'پاک‌کنندگی عمیق بدون ایجاد خشکی و حساسیت' },
-                    { icon: '🌸', title: 'عطر و بادی اسپلش', desc: 'رایحه‌های ماندگار و منحصر به فرد برای آقایان و بانوان' }
-                  ].map((item, idx) => (
-                    <div key={idx} className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 text-center h-full flex flex-col justify-center items-center">
-                      <div className="text-3xl mb-3">{item.icon}</div>
-                      <h4 className="font-bold mb-2">{item.title}</h4>
-                      <p className="text-xs text-gray-300">{item.desc}</p>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           </section>
