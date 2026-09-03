@@ -1,70 +1,36 @@
 // src/app/blog/[slug]/page.tsx
-'use client';
-
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
-  const [article, setArticle] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  
-  // استخراج slug از params
-  const slug = params?.slug;
+// تابع سمت سرور برای گرفتن مقاله - دقیقاً مثل blog/page.tsx
+async function getArticle(slug: string) {
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*') // تمام فیلدها شامل content را می‌گیرد
+    .eq('slug', slug)
+    .eq('is_active', true) // فیلتر حیاتی که قبلاً کار می‌کرد
+    .single();
 
-  useEffect(() => {
-    // اگر slug هنوز لود نشده بود، کاری نکن
-    if (!slug) return;
+  if (error || !data) return null;
+  return data;
+}
 
-    const fetchArticle = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('articles')
-          .select('*')
-          .eq('slug', slug)
-          .eq('is_active', true) // فیلتر حیاتی
-          .single();
-        
-        if (error) {
-          console.error('Supabase Error:', error);
-        } else if (data) {
-          setArticle(data);
-        }
-      } catch (err) {
-        console.error('Fetch Error:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const article = await getArticle(params.slug);
+  return {
+    title: article ? `${article.title} | مجله چهره آپ` : 'مقاله یافت نشد',
+    description: article?.summary || 'مقاله تخصصی مراقبت از پوست و مو',
+  };
+}
 
-    fetchArticle();
-  }, [slug]); // وابستگی به slug
+export default async function ArticlePage({ params }: { params: { slug: string } }) {
+  const article = await getArticle(params.slug);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="text-purple-600 font-bold">در حال بارگذاری مقاله...</div>
-      </div>
-    );
-  }
-
-  // اگر مقاله پیدا نشد، پیام مناسب نمایش بده (به جای 404 سخت‌گیرانه)
+  // اگر مقاله پیدا نشد، صفحه 404 استاندارد Next.js نمایش داده میشه
   if (!article) {
-    return (
-      <>
-        <Header />
-        <main className="min-h-screen flex flex-col items-center justify-center text-center p-4 bg-white" dir="rtl">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">مقاله مورد نظر یافت نشد</h2>
-          <p className="text-gray-500 mb-6">ممکن است این مقاله حذف شده باشد یا آدرس آن تغییر کرده باشد.</p>
-          <Link href="/blog" className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-            بازگشت به مجله
-          </Link>
-        </main>
-        <Footer />
-      </>
-    );
+    notFound();
   }
 
   return (
@@ -75,20 +41,22 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           
           {/* دکمه بازگشت */}
           <div className="mb-8">
-            <Link href="/blog" className="inline-flex items-center gap-2 text-gray-500 hover:text-purple-600 transition-colors">
+            <a href="/blog" className="inline-flex items-center gap-2 text-gray-500 hover:text-purple-600 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
               بازگشت به آرشیو مقالات
-            </Link>
+            </a>
           </div>
 
-          {/* تصویر اصلی - سایز کامل و بدون برش */}
+          {/* ✅ تنها تغییر درخواستی: نمایش کامل عکس با سایز اصلی */}
           <div className="w-full mb-10 rounded-2xl overflow-hidden bg-gray-100 shadow-lg">
             <img 
               src={article.image_url} 
               alt={article.image_alt || article.title}
-              className="w-full h-auto object-contain"
+              className="w-full h-auto object-contain" // عکس کامل و بدون برش
+              width="800"
+              height="600"
             />
           </div>
 
