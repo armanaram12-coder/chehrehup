@@ -12,7 +12,7 @@ export default function MagazineSection() {
     const fetchArticles = async () => {
       const { data, error } = await supabase
         .from('articles')
-        .select('title, slug, summary, category, image_url, created_at')
+        .select('title, slug, summary, category, image_url, created_at, image_alt') // image_alt رو هم گرفتم برای سئو
         .eq('is_active', true)
         .order('created_at', { ascending: false })
         .limit(3);
@@ -39,7 +39,8 @@ export default function MagazineSection() {
           <div className="grid md:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
               <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-lg animate-pulse border border-purple-100">
-                <div className="aspect-[3/4] bg-gray-200" />
+                {/* ✅ تغییر در لودینگ: حذف aspect-ratio ثابت */}
+                <div className="w-full h-48 bg-gray-200" /> 
                 <div className="p-6 space-y-3">
                   <div className="h-4 bg-gray-200 rounded w-1/3" />
                   <div className="h-6 bg-gray-200 rounded w-full" />
@@ -72,26 +73,28 @@ export default function MagazineSection() {
                 <Link 
                   key={article.slug} 
                   href={`/blog/${article.slug}`}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-purple-100"
+                  className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-purple-100 flex flex-col h-full"
                 >
-                  <div className="aspect-[3/4] overflow-hidden relative">
+                  {/* ✅ تغییر حیاتی: حذف aspect-[3/4] و object-cover برای نمایش کامل عکس */}
+                  <div className="relative w-full overflow-hidden bg-gray-100">
                     <span className="absolute top-3 right-3 z-10 bg-purple-600 text-white text-xs px-3 py-1 rounded-full font-bold shadow-md">
                       {article.category}
                     </span>
                     <img 
                       src={article.image_url || 'https://via.placeholder.com/500x300?text=Magazine'} 
-                      alt={article.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      alt={article.image_alt || article.title} // ✅ استفاده از alt اختصاصی برای سئو
+                      className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105" // h-auto یعنی ارتفاع طبیعی عکس
                     />
                   </div>
-                  <div className="p-6">
+                  
+                  <div className="p-6 flex flex-col flex-grow">
                     <h3 className="font-bold text-gray-900 text-lg mb-3 line-clamp-2 group-hover:text-[#7C3AED] transition-colors">
                       {article.title}
                     </h3>
-                    <p className="text-sm text-gray-500 mb-4 line-clamp-3 leading-relaxed">
+                    <p className="text-sm text-gray-500 mb-4 line-clamp-3 leading-relaxed flex-grow">
                       {article.summary}
                     </p>
-                    <div className="flex items-center text-[#7C3AED] font-bold text-sm group-hover:gap-2 transition-all">
+                    <div className="flex items-center text-[#7C3AED] font-bold text-sm group-hover:gap-2 transition-all mt-auto">
                       <span>ادامه مطلب</span>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
