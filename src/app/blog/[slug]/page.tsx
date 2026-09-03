@@ -7,44 +7,44 @@ import { supabase } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
+export default function ArticlePage(props: any) {
   const [article, setArticle] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // استخراج امن slug
-  const slug = typeof params?.slug === 'string' ? params.slug : '';
+  // ✅ روش امن برای گرفتن slug از props.params
+  const params = props?.params;
+  const slug = params?.slug;
 
   useEffect(() => {
+    console.log('Current Slug Value:', slug); // برای اطمینان از مقدار slug
+    
     if (!slug) {
-      setError('Slug is missing or invalid');
+      setError('Slug is missing. URL might be incorrect.');
       setLoading(false);
       return;
     }
 
     const fetchArticle = async () => {
       try {
-        console.log('Fetching article with slug:', slug); // برای دیباگ
-        
         const { data, error } = await supabase
           .from('articles')
           .select('*')
           .eq('slug', slug)
-          .eq('is_active', true) // فیلتر حیاتی
+          .eq('is_active', true)
           .single();
         
         if (error) {
           console.error('Supabase Error:', error);
           setError(error.message);
         } else if (data) {
-          console.log('Article found:', data.title);
           setArticle(data);
         } else {
-          setError('No article found with this slug');
+          setError('Article not found in database.');
         }
       } catch (err) {
-        console.error('Unexpected Error:', err);
-        setError('Unexpected error occurred');
+        console.error('Fetch Error:', err);
+        setError('Network error occurred.');
       } finally {
         setLoading(false);
       }
@@ -53,28 +53,26 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
     fetchArticle();
   }, [slug]);
 
-  // حالت لودینگ
   if (loading) {
     return (
       <>
         <Header />
         <main className="min-h-screen flex items-center justify-center bg-white" dir="rtl">
-          <div className="text-purple-600 font-bold text-xl">در حال بارگذاری مقاله...</div>
+          <div className="text-purple-600 font-bold text-xl">در حال بارگذاری...</div>
         </main>
         <Footer />
       </>
     );
   }
 
-  // حالت خطا یا عدم یافتن مقاله
   if (error || !article) {
     return (
       <>
         <Header />
         <main className="min-h-screen flex flex-col items-center justify-center text-center p-4 bg-white" dir="rtl">
           <h2 className="text-2xl font-bold text-red-600 mb-4">خطا در نمایش مقاله</h2>
-          <p className="text-gray-600 mb-2">Slug: {slug || 'N/A'}</p>
-          <p className="text-gray-500 mb-6 max-w-lg">{error || 'مقاله مورد نظر یافت نشد.'}</p>
+          <p className="text-gray-600 mb-2 font-mono bg-gray-100 px-3 py-1 rounded">Slug: {slug || 'N/A'}</p>
+          <p className="text-gray-500 mb-6 max-w-lg">{error || 'مقاله یافت نشد.'}</p>
           <Link href="/blog" className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors">
             بازگشت به مجله
           </Link>
@@ -84,14 +82,12 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
     );
   }
 
-  // نمایش موفقیت‌آمیز مقاله
   return (
     <>
       <Header />
       <main className="min-h-screen bg-white py-12" dir="rtl">
         <div className="container mx-auto px-4 max-w-4xl">
           
-          {/* دکمه بازگشت */}
           <div className="mb-8">
             <Link href="/blog" className="inline-flex items-center gap-2 text-gray-500 hover:text-purple-600 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -110,7 +106,6 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             />
           </div>
 
-          {/* عنوان و اطلاعات */}
           <header className="mb-8 text-center">
             <span className="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full mb-4">
               {article.category}
@@ -123,7 +118,6 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             </div>
           </header>
 
-          {/* محتوای متنی مقاله */}
           <div 
             className="prose prose-lg max-w-none text-gray-700 leading-relaxed [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:text-gray-900 [&>h2]:mt-8 [&>h2]:mb-4 [&>p]:mb-4 [&>ul]:list-disc [&>ul]:pr-6 [&>li]:mb-2"
             dangerouslySetInnerHTML={{ __html: article.content }} 
