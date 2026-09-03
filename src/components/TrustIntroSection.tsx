@@ -1,17 +1,40 @@
 // src/components/TrustIntroSection.tsx
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
+
+interface TrustCategory {
+  id: number;
+  title: string;
+  image_url: string;
+}
 
 export default function TrustIntroSection() {
+  const [categories, setCategories] = useState<TrustCategory[]>([]);
+  const [loading, setLoading] = useState(true);
+
   // ✅ لینک دقیقاً مطابق FloatingContact.tsx
   const whatsappLink = "https://api.whatsapp.com/send?phone=989352225693&text=سلام،%20من%20برای%20مشاوره%20خرید%20پیام%20می‌دهم.";
 
-  // مسیر عکس‌ها رو اینجا تنظیم کن
-  const productImages = [
-    "/images/trust/sunscreen.jpg", 
-    "/images/trust/serums.jpg",    
-    "/images/trust/perfume.jpg",   
-    "/images/trust/wash.jpg"       
-  ];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data, error } = await supabase
+        .from('trust_categories')
+        .select('id, title, image_url')
+        .order('order_index', { ascending: true });
+
+      if (data && !error) {
+        setCategories(data);
+      }
+      setLoading(false);
+    };
+
+    fetchCategories();
+  }, []);
+
+  if (loading) return null;
 
   return (
     <section className="py-16 bg-gradient-to-br from-[#4c1d95] to-[#5b21b6] text-white relative overflow-hidden">
@@ -44,7 +67,6 @@ export default function TrustIntroSection() {
                 rel="noopener noreferrer" 
                 className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-green-500/30 flex items-center gap-2 transform hover:-translate-y-1"
               >
-                {/* آیکون چت دقیقاً مثل دکمه شناور */}
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
@@ -63,13 +85,13 @@ export default function TrustIntroSection() {
             </div>
           </div>
 
-          {/* بخش تصاویر - جایگزین کارت‌های متنی قبلی */}
+          {/* بخش تصاویر داینامیک از دیتابیس */}
           <div className="lg:w-1/2 grid grid-cols-2 gap-4">
-            {productImages.map((src, idx) => (
-              <div key={idx} className="group relative overflow-hidden rounded-2xl shadow-lg border border-white/10 bg-white/5 aspect-[4/3]">
+            {categories.map((cat) => (
+              <div key={cat.id} className="group relative overflow-hidden rounded-2xl shadow-lg border border-white/10 bg-white/5 aspect-[4/3]">
                 <img 
-                  src={src} 
-                  alt={`محصولات تراست ${idx + 1}`}
+                  src={cat.image_url} 
+                  alt={cat.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = 'none';
@@ -78,7 +100,7 @@ export default function TrustIntroSection() {
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                   <span className="text-white font-bold text-sm">مشاهده محصولات</span>
+                   <span className="text-white font-bold text-sm">{cat.title}</span>
                 </div>
               </div>
             ))}
