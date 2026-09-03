@@ -10,7 +10,8 @@ import FloatingContact from '@/components/FloatingContact';
 import AIConsultant from '@/components/AIConsultant';
 import MagazineSection from '@/components/MagazineSection';
 import CategoriesSection from '@/components/CategoriesSection';
-import WhyChehrehUpSection from '@/components/WhyChehrehUpSection'; // ✅ ایمپورت کامپوننت جدید
+import WhyChehrehUpSection from '@/components/WhyChehrehUpSection';
+import PartnerBrandsSection from '@/components/PartnerBrandsSection'; // ✅ اضافه شد
 import { supabase } from '@/lib/supabase';
 import { addToCart, getCartCount } from '@/lib/cart';
 import { toggleFavorite, getFavorites } from '@/lib/favorites';
@@ -227,15 +228,15 @@ export default function Home() {
                   <div className="text-gray-600 text-sm md:text-base">مشتری راضی</div>
                 </div>
                 <div>
-                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">+۱۰</div>
+                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">+۱۹۰</div>
                   <div className="text-gray-600 text-sm md:text-base">محصول آرایشی بهداشتی</div>
                 </div>
                 <div>
-                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">+۵</div>
+                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">+</div>
                   <div className="text-gray-600 text-sm md:text-base">برند معتبر</div>
                 </div>
                 <div>
-                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">۲۴/</div>
+                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">۲/۷</div>
                   <div className="text-gray-600 text-sm md:text-base">مشاوره تخصصی</div>
                 </div>
               </div>
@@ -263,7 +264,7 @@ export default function Home() {
                 <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-purple-600 via-pink-600 to-amber-600 bg-clip-text text-transparent mb-3">
                   {allProducts[41]?.name || 'سرم جوانساز، لیفت و ضدچروک تراست اسمارت'}
                 </h2>
-                <p className="text-gray-600 text-lg">این هفته با <span className="text-red-500 font-bold">۲٪ تخفیف ویژه</span> 🎁</p>
+                <p className="text-gray-600 text-lg">این هفته با <span className="text-red-500 font-bold">۲۰٪ تخفیف ویژه</span> 🎁</p>
               </div>
 
               <div className="max-w-5xl mx-auto">
@@ -274,7 +275,7 @@ export default function Home() {
                     <div className="relative bg-gradient-to-br from-purple-100 via-pink-50 to-amber-50 p-8 flex items-center justify-center min-h-[350px]">
                       <div className="absolute top-6 right-6 z-20">
                         <div className="bg-gradient-to-br from-red-500 to-pink-600 text-white w-20 h-20 rounded-full flex flex-col items-center justify-center shadow-xl">
-                          <div className="text-2xl font-extrabold leading-none">٪۰</div>
+                          <div className="text-2xl font-extrabold leading-none">٪۲۰</div>
                           <div className="text-xs mt-1">تخفیف</div>
                         </div>
                       </div>
@@ -282,11 +283,11 @@ export default function Home() {
                       {allProducts[41]?.image && allProducts[41].image.trim() !== '' ? (
                         <img 
                           src={allProducts[41].image.trim()} 
-                          alt="محصول ویژه" 
+                          alt="محصول ویژه هفته" 
                           className="relative z-10 w-full h-full max-h-72 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" 
                         />
                       ) : (
-                        <span className="relative z-10 text-8xl">🧴</span>
+                        <span className="relative z-10 text-8xl"></span>
                       )}
                     </div>
 
@@ -301,7 +302,7 @@ export default function Home() {
                         <div className="mb-6">
                           <div className="mb-2">
                             <span className="relative inline-block text-gray-400 text-base font-bold">
-                              ,۸۴۹,۰۰ تومان
+                              ۱,۸۴۹,۰۰۰ تومان
                               <span className="absolute left-0 right-0 top-1/2 h-[2px] bg-red-500 transform -translate-y-1/2"></span>
                             </span>
                           </div>
@@ -312,13 +313,13 @@ export default function Home() {
                             <span className="text-gray-700 text-lg font-bold">تومان</span>
                           </div>
                           <div className="mt-2 inline-block bg-green-50 border border-green-200 px-3 py-1 rounded-lg">
-                            <span className="text-green-700 text-sm font-bold">۳۷۰,۰۰ تومان سود شما</span>
+                            <span className="text-green-700 text-sm font-bold">۳۷۰,۰۰۰ تومان سود شما</span>
                           </div>
                         </div>
 
                         <div className="flex gap-3">
                           <button className="flex-1 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white py-3.5 rounded-xl font-extrabold text-base hover:shadow-xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2">
-                            <span></span>
+                            <span>🛒</span>
                             <span>افزودن به سبد خرید</span>
                           </button>
                           <Link href={`/product/${allProducts[41]?.id || 42}`} className="px-6 py-3.5 border-2 border-purple-600 text-purple-600 rounded-xl font-bold hover:bg-purple-50 transition-colors text-center flex items-center justify-center">
@@ -392,20 +393,8 @@ export default function Home() {
           {/* ✅ مجله چهره آپ */}
           <MagazineSection />
 
-          {/* ✅ برندهای همکار */}
-          <section className="py-16 bg-white">
-            <div className="container mx-auto px-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 text-center">برندهای معتبر همکار با فروشگاه چهره آپ</h2>
-              <p className="text-gray-600 text-center mb-12">ما فقط با برندهای معتبر و دارای مجوز همکاری می‌کنیم</p>
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
-                {['Trust', 'Serje', 'LifeGuard', 'Aura', 'Smart', 'Professional'].map((brand, idx) => (
-                  <div key={idx} className="bg-gray-50 rounded-xl p-6 flex items-center justify-center h-24 hover:shadow-lg transition-shadow">
-                    <span className="text-xl font-bold text-gray-700">{brand}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+          {/* ✅ برندهای همکار (جایگزین شده با کامپوننت داینامیک) */}
+          <PartnerBrandsSection />
 
           {/* ✅ نظرات مشتریان */}
           <section className="py-16 bg-gradient-to-br from-purple-900 to-indigo-900 text-white">
