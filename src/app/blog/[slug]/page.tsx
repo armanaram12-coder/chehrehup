@@ -1,10 +1,11 @@
+// src/app/blog/[slug]/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
-// اگر هدر و فوتر داشتی و کامنت کرده بودی، اینجا دوباره ایمپورت کن
+// اگر هدر و فوتر دارید، ایمپورت‌ها را از کامنت خارج کنید
 // import Header from '@/components/Header';
 // import Footer from '@/components/Footer';
 
@@ -14,12 +15,12 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
 
   useEffect(() => {
     const fetchArticle = async () => {
-      // ✅ حذف فیلتر is_active برای اطمینان از پیدا شدن مقاله
-      // اگر قبلاً کد دیگه‌ای داشتی که کار می‌کرد، دقیقاً همون رو بذار اینجا
+      // ✅ بازگرداندن فیلتر is_active دقیقاً مطابق با blog/page.tsx
       const { data, error } = await supabase
         .from('articles')
         .select('*') 
         .eq('slug', params.slug)
+        .eq('is_active', true) // این خط حیاتی است
         .single();
       
       if (data && !error) {
@@ -34,7 +35,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
   }, [params.slug]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-white">در حال بارگذاری...</div>;
+    return <div className="min-h-screen flex items-center justify-center bg-white">در حال بارگذاری مقاله...</div>;
   }
 
   if (!article) {
@@ -61,12 +62,12 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             </Link>
           </div>
 
-          {/* ✅ تنها تغییری که خواستی: سایز عکس */}
+          {/* ✅ تنها تغییر درخواستی: نمایش کامل عکس با سایز اصلی */}
           <div className="w-full mb-10 rounded-2xl overflow-hidden bg-gray-100 shadow-lg">
             <img 
               src={article.image_url} 
               alt={article.image_alt || article.title}
-              className="w-full h-auto object-contain" // عکس کامل و با سایز اصلی
+              className="w-full h-auto object-contain" 
             />
           </div>
 
@@ -82,7 +83,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             </div>
           </header>
 
-          {/* نمایش محتوای مقاله */}
+          {/* نمایش محتوای متنی مقاله */}
           <div 
             className="prose prose-lg max-w-none text-gray-700 leading-relaxed [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:text-gray-900 [&>h2]:mt-8 [&>h2]:mb-4 [&>p]:mb-4 [&>ul]:list-disc [&>ul]:pr-6 [&>li]:mb-2"
             dangerouslySetInnerHTML={{ __html: article.content }} 
