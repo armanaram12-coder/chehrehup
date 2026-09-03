@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase'; // مطمئن شو مسیر درست هست
+import { supabase } from '@/lib/supabase';
 
+// ✅ تعریف اینترفیس دقیقاً مطابق ستون‌های دیتابیس تو
 interface Article {
   id: number;
   title: string;
-  excerpt: string;
-  image: string;
-  image_alt?: string; // ✅ فیلد جدید برای alt اختصاصی
+  summary: string; // تغییر نام از excerpt به summary
+  image_url: string; // تغییر نام از image به image_url
+  image_alt?: string;
   category: string;
   slug: string;
 }
@@ -20,14 +21,17 @@ export default function MagazineSection() {
 
   useEffect(() => {
     const fetchArticles = async () => {
-      // ✅ دریافت image_alt همراه با بقیه فیلدها
+      // ✅ انتخاب ستون‌های دقیق موجود در دیتابیس
       const { data, error } = await supabase
         .from('articles')
-        .select('id, title, excerpt, image, image_alt, category, slug')
+        .select('id, title, summary, image_url, image_alt, category, slug')
+        .eq('is_active', true) // فقط مقالات فعال رو بیاره
         .order('created_at', { ascending: false })
-        .limit(3); // فقط ۳ تا مقاله آخر رو نشون میده
+        .limit(3);
 
-      if (data && !error) {
+      if (error) {
+        console.error('Error fetching articles:', error);
+      } else if (data) {
         setArticles(data);
       }
       setLoading(false);
@@ -76,9 +80,8 @@ export default function MagazineSection() {
               {/* ✅ کانتینر عکس با نسبت 4:3 ثابت */}
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
                 <img 
-                  src={article.image} 
-                  // ✅ سئو: اولویت با alt اختصاصی، در غیر این صورت عنوان مقاله
-                  alt={article.image_alt || article.title}
+                  src={article.image_url} // ✅ استفاده از نام صحیح ستون
+                  alt={article.image_alt || article.title} // ✅ سئو: اولویت با alt اختصاصی
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                   width="400"
@@ -94,7 +97,7 @@ export default function MagazineSection() {
                   {article.title}
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3 flex-grow">
-                  {article.excerpt}
+                  {article.summary} // ✅ استفاده از نام صحیح ستون (summary)
                 </p>
                 
                 <div className="mt-auto pt-4 border-t border-gray-100">
