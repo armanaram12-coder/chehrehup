@@ -11,7 +11,7 @@ import AIConsultant from '@/components/AIConsultant';
 import MagazineSection from '@/components/MagazineSection';
 import CategoriesSection from '@/components/CategoriesSection';
 import WhyChehrehUpSection from '@/components/WhyChehrehUpSection';
-import PartnerBrandsSection from '@/components/PartnerBrandsSection'; // ✅ اضافه شد
+import PartnerBrandsSection from '@/components/PartnerBrandsSection';
 import { supabase } from '@/lib/supabase';
 import { addToCart, getCartCount } from '@/lib/cart';
 import { toggleFavorite, getFavorites } from '@/lib/favorites';
@@ -219,29 +219,7 @@ export default function Home() {
           <HeroSlider />
           <FlashSale />
           
-          {/* ✅ آمار و ارقام */}
-          <section className="py-12 bg-white">
-            <div className="container mx-auto px-4">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div>
-                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">+۱۰</div>
-                  <div className="text-gray-600 text-sm md:text-base">مشتری راضی</div>
-                </div>
-                <div>
-                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">+۱۹۰</div>
-                  <div className="text-gray-600 text-sm md:text-base">محصول آرایشی بهداشتی</div>
-                </div>
-                <div>
-                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">+</div>
-                  <div className="text-gray-600 text-sm md:text-base">برند معتبر</div>
-                </div>
-                <div>
-                  <div className="text-4xl md:text-5xl font-bold text-[#7C3AED] mb-2">۲/۷</div>
-                  <div className="text-gray-600 text-sm md:text-base">مشاوره تخصصی</div>
-                </div>
-              </div>
-            </div>
-          </section>
+          {/* ✅ آمار و ارقام حذف شد */}
           
           {/* ✅ محصول ویژه هفته */}
           <section className="relative py-16 overflow-hidden" dir="rtl">
@@ -275,7 +253,7 @@ export default function Home() {
                     <div className="relative bg-gradient-to-br from-purple-100 via-pink-50 to-amber-50 p-8 flex items-center justify-center min-h-[350px]">
                       <div className="absolute top-6 right-6 z-20">
                         <div className="bg-gradient-to-br from-red-500 to-pink-600 text-white w-20 h-20 rounded-full flex flex-col items-center justify-center shadow-xl">
-                          <div className="text-2xl font-extrabold leading-none">٪۲۰</div>
+                          <div className="text-2xl font-extrabold leading-none">٪۲</div>
                           <div className="text-xs mt-1">تخفیف</div>
                         </div>
                       </div>
@@ -302,7 +280,7 @@ export default function Home() {
                         <div className="mb-6">
                           <div className="mb-2">
                             <span className="relative inline-block text-gray-400 text-base font-bold">
-                              ۱,۸۴۹,۰۰۰ تومان
+                              ۱,۸۴۹,۰۰ تومان
                               <span className="absolute left-0 right-0 top-1/2 h-[2px] bg-red-500 transform -translate-y-1/2"></span>
                             </span>
                           </div>
@@ -393,7 +371,7 @@ export default function Home() {
           {/* ✅ مجله چهره آپ */}
           <MagazineSection />
 
-          {/* ✅ برندهای همکار (جایگزین شده با کامپوننت داینامیک) */}
+          {/* ✅ برندهای همکار */}
           <PartnerBrandsSection />
 
           {/* ✅ نظرات مشتریان */}
