@@ -2,23 +2,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-export default function ArticlePage(props: any) {
+export default function ArticlePage() {
+  const params = useParams();
+  const slug = params?.slug as string;
+
   const [article, setArticle] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  // ✅ روش امن برای گرفتن slug از props.params
-  const params = props?.params;
-  const slug = params?.slug;
 
   useEffect(() => {
-    console.log('Current Slug Value:', slug); // برای اطمینان از مقدار slug
-    
+    console.log('Current Slug Value:', slug);
+
     if (!slug) {
       setError('Slug is missing. URL might be incorrect.');
       setLoading(false);
@@ -33,7 +33,7 @@ export default function ArticlePage(props: any) {
           .eq('slug', slug)
           .eq('is_active', true)
           .single();
-        
+
         if (error) {
           console.error('Supabase Error:', error);
           setError(error.message);
@@ -87,7 +87,7 @@ export default function ArticlePage(props: any) {
       <Header />
       <main className="min-h-screen bg-white py-12" dir="rtl">
         <div className="container mx-auto px-4 max-w-4xl">
-          
+
           <div className="mb-8">
             <Link href="/blog" className="inline-flex items-center gap-2 text-gray-500 hover:text-purple-600 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -99,8 +99,8 @@ export default function ArticlePage(props: any) {
 
           {/* تصویر اصلی - سایز کامل و بدون برش */}
           <div className="w-full mb-10 rounded-2xl overflow-hidden bg-gray-100 shadow-lg">
-            <img 
-              src={article.image_url} 
+            <img
+              src={article.image_url}
               alt={article.image_alt || article.title}
               className="w-full h-auto object-contain"
             />
@@ -118,9 +118,9 @@ export default function ArticlePage(props: any) {
             </div>
           </header>
 
-          <div 
+          <div
             className="prose prose-lg max-w-none text-gray-700 leading-relaxed [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:text-gray-900 [&>h2]:mt-8 [&>h2]:mb-4 [&>p]:mb-4 [&>ul]:list-disc [&>ul]:pr-6 [&>li]:mb-2"
-            dangerouslySetInnerHTML={{ __html: article.content }} 
+            dangerouslySetInnerHTML={{ __html: article.content }}
           />
 
         </div>
